@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">kintore</string>
+    <string name="zero">"00:00.0"</string>
+</resources>

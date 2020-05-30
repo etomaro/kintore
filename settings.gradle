@@ -1,0 +1,2 @@
+rootProject.name='kintore'
+include ':app'
