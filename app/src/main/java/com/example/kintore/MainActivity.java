@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
             count ++;
             timerText.setText(dataFormat.
                     format(count*period));
+            //periodミリ秒後に処理されるようにthis(runnable)をMessage Queueに渡す
             handler.postDelayed(this, period);
         }
     };
@@ -44,12 +45,13 @@ public class MainActivity extends AppCompatActivity {
         timerText.setText(dataFormat.format(0));
     }
     @Override
-    public boolean onTouchEvent(MotionEvent motionEnvet) {
+    public boolean onTouchEvent(MotionEvent motionEvent) {
 
-        switch (motionEnvet.getAction()) {
+        switch (motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 //スタート
                 if (ON) {
+                    //Message QueueにRunnableを渡す
                     handler.post(runnable);
                     ON = false;
                 //リセット
