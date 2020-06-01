@@ -2,12 +2,16 @@ package com.example.kintore;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.view.MotionEvent;
 import android.view.GestureDetector;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private int count, period;
     private boolean ON = true;
 
+    private String rireki;
+    private List<String> rireki_list = new ArrayList<String>();
     //画面が変わったとき(初めて生成されたとき)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +57,27 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onDoubleTap(MotionEvent event) {
                 handler.removeCallbacks(runnable);
+                //現在のタイマーを一旦rirekiに保存
+                rireki = dataFormat.format(count*period);
+//                System.out.println(rireki);
+
+                //ダイアログを表示
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("履歴にこのしますか？");
+
+                //Okボタンで履歴を残す
+                builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //rirekiをrireki_listに追加
+                        rireki_list.add(rireki);
+                        System.out.println(rireki_list);
+                    }
+                });
+                //Cancelで履歴に残さない
+                builder.setNegativeButton("NO", null)
+                        .show();
+
                 timerText.setText(dataFormat.format(0));
                 count = 0;
                 ON = true;
